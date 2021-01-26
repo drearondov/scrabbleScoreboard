@@ -193,3 +193,7 @@ migrations/script.py.mako
 migrations/env.py
 app.db
 .flaskenv
+.vscode/launch.json
+.testenv
+migrations/versions/161fba619cd0_initial_migration_word_game_player_play_.py
+migrations/versions/8563a776780e_initial_migration.py

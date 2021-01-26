@@ -1,0 +1,33 @@
+Authenticate user and return tokens
+---
+tags:
+  - auth
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      type: object
+      properties:
+        admin:
+          description: Administrator name registered
+          type: string
+          example: admin
+        password:
+          description: Password for administrator
+          type: string
+          example: P4$$w0rd!
+responses:
+  200:
+    description: A dictionary containing an access token and a refresh token
+    schema:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: myaccesstoken
+        refresh_token:
+          type: string
+          example: myrefreshtoken
+  400:
+    description: Bad request
