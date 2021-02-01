@@ -1,39 +1,120 @@
-"""
-Fixtures used in tests.
-"""
-
 import json
 import pytest
-from datetime import datetime as dt
-from dotenv import load_dotenv
 
-from scrabbleScoreboard.models import Word, Language, Play, Player, Game, GametypeEnum
-from scrabbleScoreboard.app import create_app
-from scrabbleScoreboard.extensions import db as _db
+from dotenv import load_dotenv
 from pytest_factoryboy import register
 
+from scrabbleScoreboard.models.admin import Admin
+from scrabbleScoreboard.app import create_app
+from scrabbleScoreboard.extensions import db as _db
+from tests.factories import (
+    LanguageFactory, WordFactory, GameFactory, PlayerFactory, PlayFactory
+)
+
+
+register(LanguageFactory)
+register(WordFactory)
+register(GameFactory)
+register(PlayerFactory)
+register(PlayFactory)
+
+
+@pytest.fixture(scope="session")
+def app():
+    load_dotenv(".testenv")
+    app = create_app(testing=True)
+
+    return app
+
 
 @pytest.fixture
-def spanish_language():
-    """Returns a Language object set to Spanish."""
-    return Language(language='ESP')
+def db(app):
+    _db.app = app
+
+    with app.app_context():
+        _db.create_all()
+
+    yield _db
+
+    _db.session.close()
+    _db.drop_all()
+
 
 @pytest.fixture
-def paseo_word(spanish_language):
-    """Returns a Word object with the word paseo and spanish language."""
-    return Word(word='paseo', language=spanish_language)
+def mock_db(app, language_factory, word_factory, game_factory, player_factory):
+
+    _db.app = app
+
+    with app.app_context():
+        _db.create_all()
+
+        languages = language_factory.create_batch(4)
+        _db.session.add_all(languages)
+        _db.session.commit()
+
+        words = word_factory.create_batch(60)
+        _db.session.add_all(words)
+        _db.session.commit()
+
+        games = game_factory.create_batch(5)
+        _db.session.add_all(games)
+        _db.session.commit()
+
+        players = player_factory.create_batch(2)
+        _db.session.add_all(players)
+        _db.session.commit()
+
+    yield _db
+
 
 @pytest.fixture
-def new_game():
-    """Returns a new Game."""
-    date = dt.strptime('30/03/2020', '%d/%m/%Y')
-    return Game(date=date, gametype=GametypeEnum.normal)
+def admin_user(db):
+    admin = Admin(
+        admin_name='admin',
+        email='admin@admin.com',
+        password='admin'
+    )
+
+    db.session.add(admin)
+    db.session.commit()
+
+    return admin
+
 
 @pytest.fixture
-def new_player():
-    """Return a new Player."""
-    return Player(name='You Know Who')
+def admin_headers(admin_user, client):
+    data = {
+        'admin': admin_user.admin_name,
+        'password': 'admin'
+    }
+    rep = client.post(
+        '/auth/login',
+        data=json.dumps(data),
+        headers={'content-type': 'application/json'}
+    )
+
+    tokens = json.loads(rep.get_data(as_text=True))
+
+    return {
+        'content-type': 'application/json',
+        'authorization': f'Bearer {tokens["access_token"]}'
+    }
 
 @pytest.fixture
-def paseo_play(paseo_word, new_game, new_player):
-    return Play(turn_number=1, score=20, word=paseo_word, game=new_game, player=new_player)
+def admin_refresh_headers(admin_user, client):
+    data = {
+        'admin': admin_user.admin_name,
+        'password': 'admin'
+    }
+    rep = client.post(
+        'auth/login',
+        data=json.dumps(data),
+        headers={'content-type': 'application/json'}
+    )
+
+    tokens = json.loads(rep.get_data(as_text=True))
+
+    return {
+        'content-type': 'application/json',
+        'authorization': f'Bearer {tokens["refresh_token"]}'
+    }

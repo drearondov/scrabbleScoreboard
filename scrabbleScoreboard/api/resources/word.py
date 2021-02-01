@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required
 from http import HTTPStatus
 
 from scrabbleScoreboard.api.schemas import WordSchema
-from scrabbleScoreboard.models import Word
+from scrabbleScoreboard.models import Word, Language
 
 
 class WordListResource(Resource):
@@ -18,12 +18,17 @@ class WordListResource(Resource):
         words = Word.query.all()
         return {"words": words_schema.dump(words)}, HTTPStatus.OK
 
+
 class WordLanguageListResource(Resource):
     """
     Multiple object resource
     """
+
     @jwt_required
-    def get(self):
+    def get(self, language_name):
         words_schema = WordSchema(many=True)
-        language_words = Word.get_by_language(request.json['language'])
-        return {"language words": words_schema.dump(language_words)}, HTTPStatus.OK
+        selected_language = Language.get_by_name(language_name)
+        language_words = Word.get_by_language(selected_language)
+        return {
+            f"{language_name}_words": words_schema.dump(language_words)
+        }, HTTPStatus.OK

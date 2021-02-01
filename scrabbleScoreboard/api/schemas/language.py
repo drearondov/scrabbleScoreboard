@@ -1,20 +1,18 @@
 from marshmallow import RAISE
 
-from scrabbleScoreboard.models import Word
+from scrabbleScoreboard.models import Language
 from scrabbleScoreboard.extensions import ma, db
 
 
-class WordSchema(ma.SQLAlchemyAutoSchema):
+class LanguageSchema(ma.SQLAlchemyAutoSchema):
 
     id = ma.Int(dump_only=True)
-    word = ma.String(required=True)
-
-    language = ma.Nested("LanguageSchema", required=True)
+    name = ma.String(required=True)
+    code = ma.String()
 
     class Meta:
-        model = Word
+        model = Language
         sqla_session = db.session
         load_instance = True
         include_relationships = True
-        include_fk = True
         unknown = RAISE

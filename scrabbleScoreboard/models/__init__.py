@@ -7,4 +7,13 @@ from scrabbleScoreboard.models.admin import Admin
 from scrabbleScoreboard.models.blacklist import TokenBlacklist
 
 
-__all__ = ["Word", "Language", "Game", "GametypeEnum", "Player", "Play", "Admin", "TokenBlacklist"]
+__all__ = [
+    "Word",
+    "Language",
+    "Game",
+    "GametypeEnum",
+    "Player",
+    "Play",
+    "Admin",
+    "TokenBlacklist",
+]

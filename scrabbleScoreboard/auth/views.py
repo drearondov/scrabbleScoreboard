@@ -5,14 +5,18 @@ from flask_jwt_extended import (
     jwt_required,
     jwt_refresh_token_required,
     get_jwt_identity,
-    get_raw_jwt
+    get_raw_jwt,
 )
 from flasgger import swag_from
 from http import HTTPStatus
 
 from scrabbleScoreboard.models import Admin
 from scrabbleScoreboard.extensions import pwd_context, jwt
-from scrabbleScoreboard.auth.helpers import revoke_token, is_token_revoked, add_token_to_database
+from scrabbleScoreboard.auth.helpers import (
+    revoke_token,
+    is_token_revoked,
+    add_token_to_database,
+)
 
 
 blueprint = Blueprint("auth", __name__, url_prefix="/auth")
@@ -27,10 +31,15 @@ def login():
     admin = request.json.get("admin", None)
     password = request.json.get("password", None)
     if admin is None or not password:
-        return jsonify({"message": "Missing username or password"}), HTTPStatus.BAD_REQUEST
+        return (
+            jsonify({"message": "Missing username or password"}),
+            HTTPStatus.BAD_REQUEST,
+        )
 
     administrator = Admin.query.filter_by(admin_name=admin).first()
-    if administrator is None or not pwd_context.verify(password, administrator.password):
+    if administrator is None or not pwd_context.verify(
+        password, administrator.password
+    ):
         return jsonify({"message": "Bad credentials"}), HTTPStatus.BAD_REQUEST
 
     access_token = create_access_token(identity=administrator.id)

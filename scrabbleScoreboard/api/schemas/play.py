@@ -8,9 +8,9 @@ class PlaySchema(ma.SQLAlchemyAutoSchema):
     turn_number = ma.Int(required=True)
     score = ma.Int(required=True)
 
-    word = ma.Nested('WordSchema', required=True)
-    game = ma.Nested('GameSchema', required=True)
-    player = ma.Nested('PlayerSchema', required=True)
+    word = ma.Nested("WordSchema", required=True)
+    game = ma.Nested("GameSchema", exclude=("plays",), required=True)
+    player = ma.Nested("PlayerSchema", exclude=("plays",), required=True)
 
     class Meta:
         model = Play

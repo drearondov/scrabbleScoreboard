@@ -20,7 +20,7 @@ class TokenBlacklist(db.Model):
     jti = db.Column(db.String(36), nullable=False, unique=True)
     token_type = db.Column(db.String(10), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("admin.id"), nullable=False)
-    revoked = db.Column(db.Boolean, nullable=False)
+    revoked = db.Column(db.Boolean(name="is_revoked"), nullable=False)
     expires = db.Column(db.DateTime, nullable=False)
 
     admin = db.relationship("Admin", lazy="joined")

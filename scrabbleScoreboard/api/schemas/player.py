@@ -7,7 +7,7 @@ class PlayerSchema(ma.SQLAlchemyAutoSchema):
     id = ma.Int(dump_only=True)
     name = ma.String(required=True)
 
-    plays = ma.Nested('PlaySchema', many=True)
+    plays = ma.Nested("PlaySchema", many=True)
 
     class Meta:
         model = Player

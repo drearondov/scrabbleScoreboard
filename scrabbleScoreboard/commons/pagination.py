@@ -1,4 +1,3 @@
-
 """Simple helper to paginate query
 """
 from flask import url_for, request

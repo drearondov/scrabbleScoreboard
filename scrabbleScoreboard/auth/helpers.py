@@ -28,11 +28,11 @@ def add_token_to_database(encoded_token, identity_claim):
     revoked = False
 
     db_token = TokenBlacklist(
-        jti = jti,
-        token_type = token_type,
-        user_id = user_identity,
-        expires = expires,
-        revoked = revoked
+        jti=jti,
+        token_type=token_type,
+        user_id=user_identity,
+        expires=expires,
+        revoked=revoked,
     )
 
     db.session.add(db_token)

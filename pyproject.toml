@@ -1,20 +1,21 @@
 [tool.poetry]
-name = "scrabble-scoreboard"
+name = "scrabbleScoreboard"
 version = "0.1.0-alpha"
 description = "Scrabble scoreboard, analytics and utilities"
 authors = ["Andrea Rondón <andrea.estefania.rv@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.7"
 Flask = "^1.1.2"
 Flask-SQLAlchemy = "^2.4.4"
 flask-marshmallow = "^0.14.0"
-Flask-WTF = "^0.14.3"
 Flask-Migrate = "^2.5.3"
 Flask-JWT-Extended = "^3.25.0"
 python-dotenv = "^0.15.0"
 setuptools = "^51.1.2"
 flasgger = "^0.9.5"
+marshmallow-enum = "^1.5.1"
+marshmallow-sqlalchemy = "^0.24.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"
@@ -22,6 +23,11 @@ requests = "^2.25.1"
 httpie = "^2.3.0"
 tox = "^3.21.2"
 pytest-factoryboy = "^2.1.0"
+pytest-flask = "^1.1.0"
+pytest-runner = "^5.2"
+pytest-celery = "^0.0.0-alpha.1"
+pretty-errors = "^1.2.19"
+passlib = "^1.7.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

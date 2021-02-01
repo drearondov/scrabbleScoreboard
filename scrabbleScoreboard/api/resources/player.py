@@ -13,6 +13,12 @@ class PlayerResource(Resource):
 
     method_decorators = [jwt_required]
 
+    def get(self, player_id):
+        player_schema = PlayerSchema()
+        player = Player.query.get_or_404(player_id)
+
+        return player_schema.dump(player), HTTPStatus.OK
+
     def put(self, player_id):
         player_schema = PlayerSchema(partial=True)
         player = Player.query.get_or_404(player_id)
@@ -20,8 +26,10 @@ class PlayerResource(Resource):
 
         db.session.commit()
 
-        return {"message": "player updates", "player": player_schema.dump(player)}, HTTPStatus.OK
-
+        return {
+            "message": "player updated",
+            "player": player_schema.dump(player),
+        }, HTTPStatus.OK
 
     def delete(self, player_id):
         erase_player = Player.query.get_or_404(player_id)
@@ -42,12 +50,14 @@ class PlayerListResource(Resource):
 
         return player_schema.dump(players), HTTPStatus.OK
 
-
     def post(self):
         player_schema = PlayerSchema()
         new_player = player_schema.load(request.json)
-        
+
         db.session.add(new_player)
         db.session.commit()
 
-        return {"message": "player created", "player": player_schema.dump(new_player)}, HTTPStatus.CREATED
+        return {
+            "message": "player created",
+            "player": player_schema.dump(new_player),
+        }, HTTPStatus.CREATED

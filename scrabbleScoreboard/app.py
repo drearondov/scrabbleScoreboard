@@ -20,6 +20,7 @@ def create_app(testing=False):
 
     return app
 
+
 def configure_extensions(app):
     """Initialize application extensions."""
     db.init_app(app)
@@ -27,10 +28,12 @@ def configure_extensions(app):
     migrate.init_app(app, db)
     swagger.init_app(app)
 
+
 def register_blueprints(app):
     """Register all blueprints for applications."""
     app.register_blueprint(api.views.blueprint)
     app.register_blueprint(auth.views.blueprint)
+
 
 def register_commands(app):
     """Register custom commands for application."""

@@ -1,17 +1,18 @@
 from scrabbleScoreboard.extensions import db
 
+
 class Word(db.Model):
-    __tablename__ = 'word'
+    __tablename__ = "word"
 
     id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(100), unique=True)
     times_used = db.Column(db.Integer, default=1)
 
-    language_id = db.Column(db.Integer, db.ForeignKey('language.id'))
-    plays = db.relationship('Play', backref='word', lazy=True)
+    language_id = db.Column(db.Integer, db.ForeignKey("language.id"))
+    plays = db.relationship("Play", backref="word", lazy=True)
 
     def __repr__(self) -> str:
-        return f'<Word {self.word}>'
+        return f"<Word {self.word}>"
 
     @classmethod
     def get_by_language(cls, language):

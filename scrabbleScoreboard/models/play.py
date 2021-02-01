@@ -6,12 +6,12 @@ class Play(db.Model):
     turn_number = db.Column(db.Integer)
     score = db.Column(db.Integer)
 
-    word_id = db.Column(db.Integer, db.ForeignKey('word.id'), nullable=False)
-    game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
-    player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
+    word_id = db.Column(db.Integer, db.ForeignKey("word.id"), nullable=False)
+    game_id = db.Column(db.Integer, db.ForeignKey("game.id"), nullable=False)
+    player_id = db.Column(db.Integer, db.ForeignKey("player.id"), nullable=False)
 
     def __repr__(self) -> str:
-        return f'word: {self.word_id}, score: {self.score}'
+        return f"word: {self.word_id}, score: {self.score}"
 
     @classmethod
     def get_by_player(cls, player):
