@@ -50,6 +50,7 @@ api.add_resource(PlayResource, "/plays/<int:play_id>", endpoint="play_by_id")
 def handle_marshmallow_error(e):
     """Return json error for marshmallow validation errors.
 
-    This will avoid having to try/catch ValidationErrors in all endpoints, returning correct JSON response with associated HTTP 400 Status (https://tools.ietf.org/html/rfc7231#section-6.5.1)
+    This will avoid having to try/catch ValidationErrors in all endpoints, returning correct JSON response with
+    associated HTTP 400 Status (https://tools.ietf.org/html/rfc7231#section-6.5.1)
     """
     return jsonify(e.messages), HTTPStatus.BAD_REQUEST

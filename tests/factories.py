@@ -2,6 +2,9 @@ import factory
 import factory.fuzzy
 import json
 
+from factory import BUILD_STRATEGY
+from sqlalchemy.orm import scoped_session
+
 from scrabbleScoreboard.models import (
     Word, Language, Game, GametypeEnum, Player, Play
 )
@@ -30,8 +33,10 @@ def players():
 class LanguageFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Language
-        sqlalchemy_session = db.session
         sqlalchemy_get_or_create = ('name',)
+        sqlalchemy_session = scoped_session(
+            lambda: db.session, scopefunc=lambda: db.session
+        )
 
     name = factory.fuzzy.FuzzyChoice(language_list)
 
@@ -39,8 +44,10 @@ class LanguageFactory(factory.alchemy.SQLAlchemyModelFactory):
 class WordFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Word
-        sqlalchemy_session = db.session
         sqlalchemy_get_or_create = ('word',)
+        sqlalchemy_session = scoped_session(
+            lambda: db.session, scopefunc=lambda: db.session
+        )
 
     word = factory.Faker('word')
     times_used = factory.Faker('random_number')
@@ -51,7 +58,9 @@ class WordFactory(factory.alchemy.SQLAlchemyModelFactory):
 class GameFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Game
-        sqlalchemy_session = db.session
+        sqlalchemy_session = scoped_session(
+            lambda: db.session, scopefunc=lambda: db.session
+        )
 
     date = factory.Faker('date_time')
     gametype = factory.fuzzy.FuzzyChoice(
@@ -62,8 +71,10 @@ class GameFactory(factory.alchemy.SQLAlchemyModelFactory):
 class PlayerFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Player
-        sqlalchemy_session = db.session
         sqlalchemy_get_or_create = ('name',)
+        sqlalchemy_session = scoped_session(
+            lambda: db.session, scopefunc=lambda: db.session
+        )
 
     name = factory.Faker('name')
 
@@ -71,8 +82,11 @@ class PlayerFactory(factory.alchemy.SQLAlchemyModelFactory):
 class PlayFactory(factory.alchemy.SQLAlchemyModelFactory):
     class Meta:
         model = Play
-        sqlalchemy_session = db.session
+        strategy = BUILD_STRATEGY
         sqlalchemy_get_or_create = ('game', 'player',)
+        sqlalchemy_session = scoped_session(
+            lambda: db.session, scopefunc=lambda: db.session
+        )
 
     turn_number = factory.Faker('random_number')
     score = factory.Faker('random_number')

@@ -1,12 +1,12 @@
-# Scrabble Counter
+# Scrabble Scoreboard
 
-I build this project to help me collect data from the Scrabble games we play at home, and either marvel or cry at the sight of our own vocabulary and resourcefulness.
+Collect data about Scrabble Games and marvel or cry at the sight of your vocabulary and resourcefulness.
 
 ## Technologies used
 
 * SQLite3 for a small portable database.
-* Flask to create the web application and later serialise it.
-* Flaks-SQLAlchemy and Flask-Migrate for database management.
+* Flask to create the web application and later serialize it.
+* Flask-SQLAlchemy and Flask-Migrate for database management.
 
 ## Endpoints
 

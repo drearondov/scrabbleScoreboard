@@ -24,47 +24,40 @@ def app():
     load_dotenv(".testenv")
     app = create_app(testing=True)
 
-    return app
+    ctx = app.app_context()
+    ctx.push()
+
+    yield app
+
+    ctx.pop()
 
 
-@pytest.fixture
-def db(app):
+@pytest.fixture()
+def db(app, language_factory, word_factory, game_factory,
+        player_factory, play_factory):
     _db.app = app
+    _db.create_all()
 
-    with app.app_context():
-        _db.create_all()
+    language_factory.create_batch(4)
+    _db.session.commit()
+
+    word_factory.create_batch(60)
+    _db.session.commit()
+
+    game_factory.create_batch(5)
+    _db.session.commit()
+
+    player_factory.create_batch(2)
+    _db.session.commit()
+
+    play_factory.create_batch(60)
+    _db.session.commit()
 
     yield _db
 
+    _db.session.rollback()
     _db.session.close()
     _db.drop_all()
-
-
-@pytest.fixture
-def mock_db(app, language_factory, word_factory, game_factory, player_factory):
-
-    _db.app = app
-
-    with app.app_context():
-        _db.create_all()
-
-        languages = language_factory.create_batch(4)
-        _db.session.add_all(languages)
-        _db.session.commit()
-
-        words = word_factory.create_batch(60)
-        _db.session.add_all(words)
-        _db.session.commit()
-
-        games = game_factory.create_batch(5)
-        _db.session.add_all(games)
-        _db.session.commit()
-
-        players = player_factory.create_batch(2)
-        _db.session.add_all(players)
-        _db.session.commit()
-
-    yield _db
 
 
 @pytest.fixture
@@ -99,6 +92,7 @@ def admin_headers(admin_user, client):
         'content-type': 'application/json',
         'authorization': f'Bearer {tokens["access_token"]}'
     }
+
 
 @pytest.fixture
 def admin_refresh_headers(admin_user, client):

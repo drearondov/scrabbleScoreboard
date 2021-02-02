@@ -1,7 +1,7 @@
 """Initial migration.
 
 Revision ID: 2678b899aee4
-Revises: 
+Revises:
 Create Date: 2021-01-29 09:40:58.285029
 
 """
@@ -51,7 +51,7 @@ def upgrade():
     sa.Column('jti', sa.String(length=36), nullable=False),
     sa.Column('token_type', sa.String(length=10), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('revoked', sa.Boolean(name= 'is_revoked'), nullable=False),
+    sa.Column('revoked', sa.Boolean(name='is_revoked'), nullable=False),
     sa.Column('expires', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['admin.id'], name=op.f('fk_token_blacklist_user_id_admin')),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_token_blacklist')),
