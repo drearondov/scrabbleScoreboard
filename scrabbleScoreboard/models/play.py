@@ -5,6 +5,7 @@ class Play(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     turn_number = db.Column(db.Integer)
     score = db.Column(db.Integer)
+    cumulative_score = db.Column(db.Integer, default=0)
 
     word_id = db.Column(db.Integer, db.ForeignKey("word.id"), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey("game.id"), nullable=False)

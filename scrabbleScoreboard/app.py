@@ -1,9 +1,8 @@
 from flask import Flask
 
-from scrabbleScoreboard import api
-from scrabbleScoreboard import auth
-from scrabbleScoreboard.extensions import db, migrate, jwt, swagger
-from scrabbleScoreboard.manage import cli
+from scrabbleScoreboard import api, auth
+from scrabbleScoreboard.extensions import (db, migrate, jwt, swagger)
+from scrabbleScoreboard.cli import cli
 
 
 def create_app(testing=False):

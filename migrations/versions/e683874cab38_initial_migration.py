@@ -1,8 +1,8 @@
 """Initial migration.
 
-Revision ID: 2678b899aee4
-Revises:
-Create Date: 2021-01-29 09:40:58.285029
+Revision ID: e683874cab38
+Revises: 
+Create Date: 2021-02-05 12:08:41.411067
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2678b899aee4'
+revision = 'e683874cab38'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,23 +28,28 @@ def upgrade():
     sa.UniqueConstraint('admin_name', name=op.f('uq_admin_admin_name')),
     sa.UniqueConstraint('email', name=op.f('uq_admin_email'))
     )
-    op.create_table('game',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('date', sa.DateTime(), nullable=False),
-    sa.Column('gametype', sa.Enum('normal', 'timed', name='gametypeenum'), nullable=False),
-    sa.PrimaryKeyConstraint('id', name=op.f('pk_game'))
-    )
     op.create_table('language',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('language', sa.String(length=60), nullable=True),
+    sa.Column('name', sa.String(length=60), nullable=True),
+    sa.Column('code', sa.String(length=2), nullable=True),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_language')),
-    sa.UniqueConstraint('language', name=op.f('uq_language_language'))
+    sa.UniqueConstraint('code', name=op.f('uq_language_code')),
+    sa.UniqueConstraint('name', name=op.f('uq_language_name'))
     )
     op.create_table('player',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=True),
     sa.PrimaryKeyConstraint('id', name=op.f('pk_player')),
     sa.UniqueConstraint('name', name=op.f('uq_player_name'))
+    )
+    op.create_table('game',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('date', sa.DateTime(), nullable=False),
+    sa.Column('gametype', sa.Enum('normal', 'timed', name='gametypeenum'), nullable=False),
+    sa.Column('is_active', sa.Boolean(name='is_active'), nullable=True),
+    sa.Column('winner_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['winner_id'], ['player.id'], name=op.f('fk_game_winner_id_player')),
+    sa.PrimaryKeyConstraint('id', name=op.f('pk_game'))
     )
     op.create_table('token_blacklist',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -59,7 +64,7 @@ def upgrade():
     )
     op.create_table('word',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('word', sa.String(length=100), nullable=True),
+    sa.Column('word', sa.String(length=100), nullable=False),
     sa.Column('times_used', sa.Integer(), nullable=True),
     sa.Column('language_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['language_id'], ['language.id'], name=op.f('fk_word_language_id_language')),
@@ -70,6 +75,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('turn_number', sa.Integer(), nullable=True),
     sa.Column('score', sa.Integer(), nullable=True),
+    sa.Column('cumulative_score', sa.Integer(), nullable=True),
     sa.Column('word_id', sa.Integer(), nullable=False),
     sa.Column('game_id', sa.Integer(), nullable=False),
     sa.Column('player_id', sa.Integer(), nullable=False),
@@ -86,8 +92,8 @@ def downgrade():
     op.drop_table('play')
     op.drop_table('word')
     op.drop_table('token_blacklist')
+    op.drop_table('game')
     op.drop_table('player')
     op.drop_table('language')
-    op.drop_table('game')
     op.drop_table('admin')
     # ### end Alembic commands ###

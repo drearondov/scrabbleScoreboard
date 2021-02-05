@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "scrabbleScoreboard"
-version = "0.1.0-beta"
+version = "0.1.0-alpha.1"
 description = "Scrabble scoreboard, analytics and utilities"
 authors = ["Andrea Rondón <andrea.estefania.rv@gmail.com>"]
 
@@ -16,6 +16,11 @@ setuptools = "^51.1.2"
 flasgger = "^0.9.5"
 marshmallow-enum = "^1.5.1"
 marshmallow-sqlalchemy = "^0.24.1"
+click = "^7.1.2"
+Flask-WTF = "^0.14.3"
+Flask-Admin = "^1.5.7"
+Flask-Login = "^0.5.0"
+WTForms-SQLAlchemy = "^0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"

@@ -1,0 +1,16 @@
+Update an existing game
+---
+tags:
+  - api
+parameters:
+  - name: body
+    in: body
+    type: object
+definitions:
+  Game:
+    type: object
+    properties:
+      id:
+        type: int
+      date:
+        type: datetime

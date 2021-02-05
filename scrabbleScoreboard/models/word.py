@@ -5,7 +5,7 @@ class Word(db.Model):
     __tablename__ = "word"
 
     id = db.Column(db.Integer, primary_key=True)
-    word = db.Column(db.String(100), unique=True)
+    word = db.Column(db.String(100), unique=True, nullable=False)
     times_used = db.Column(db.Integer, default=1)
 
     language_id = db.Column(db.Integer, db.ForeignKey("language.id"))
