@@ -100,6 +100,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "dominate"
+version = "2.6.0"
+description = "Dominate is a Python library for creating and manipulating HTML documents using an elegant DOM API."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+
+[[package]]
 name = "factory-boy"
 version = "3.2.0"
 description = "A versatile test fixtures replacement based on thoughtbot's factory_bot for Ruby."
@@ -197,6 +205,19 @@ wtforms = "*"
 [package.extras]
 aws = ["boto"]
 azure = ["azure-storage-blob"]
+
+[[package]]
+name = "flask-bootstrap"
+version = "3.3.7.1"
+description = "An extension that includes Bootstrap in your project, without any boilerplate code."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+dominate = "*"
+Flask = ">=0.8"
+visitor = "*"
 
 [[package]]
 name = "flask-jwt-extended"
@@ -769,6 +790,14 @@ docs = ["proselint (>=0.10.2)", "sphinx (>=3)", "sphinx-argparse (>=0.2.5)", "sp
 testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", "pytest (>=4)", "pytest-env (>=0.6.2)", "pytest-freezegun (>=0.4.1)", "pytest-mock (>=2)", "pytest-randomly (>=1)", "pytest-timeout (>=1)", "packaging (>=20.0)", "xonsh (>=0.9.16)"]
 
 [[package]]
+name = "visitor"
+version = "0.1.3"
+description = "A tiny pythonic visitor implementation."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "werkzeug"
 version = "1.0.1"
 description = "The comprehensive WSGI web application library."
@@ -823,7 +852,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7, <4"
-content-hash = "70cf9e4c4781bfa8b4a5f43dec9864ebf18ebe2e5ad89f8615e3087a2c64b9f3"
+content-hash = "7879ea2d3c1d559049dd82c6ec2887154978b08f63f82b2fe922d819bf79579e"
 
 [metadata.files]
 alembic = [
@@ -907,6 +936,10 @@ distlib = [
     {file = "distlib-0.3.1-py2.py3-none-any.whl", hash = "sha256:8c09de2c67b3e7deef7184574fc060ab8a793e7adbb183d942c389c8b13c52fb"},
     {file = "distlib-0.3.1.zip", hash = "sha256:edf6116872c863e1aa9d5bb7cb5e05a022c519a4594dc703843343a9ddd9bff1"},
 ]
+dominate = [
+    {file = "dominate-2.6.0-py2.py3-none-any.whl", hash = "sha256:84b5f71ed30021193cb0faa45d7776e1083f392cfe67a49f44e98cb2ed76c036"},
+    {file = "dominate-2.6.0.tar.gz", hash = "sha256:76ec2cde23700a6fc4fee098168b9dee43b99c2f1dd0ca6a711f683e8eb7e1e4"},
+]
 factory-boy = [
     {file = "factory_boy-3.2.0-py2.py3-none-any.whl", hash = "sha256:1d3db4b44b8c8c54cdd8b83ae4bdb9aeb121e464400035f1f03ae0e1eade56a4"},
     {file = "factory_boy-3.2.0.tar.gz", hash = "sha256:401cc00ff339a022f84d64a4339503d1689e8263a4478d876e58a3295b155c5b"},
@@ -933,6 +966,9 @@ flask = [
 ]
 flask-admin = [
     {file = "Flask-Admin-1.5.7.tar.gz", hash = "sha256:145f59407d78319925e20f7c3021f60c71f0cacc98e916e52000845dc4c63621"},
+]
+flask-bootstrap = [
+    {file = "Flask-Bootstrap-3.3.7.1.tar.gz", hash = "sha256:cb08ed940183f6343a64e465e83b3a3f13c53e1baabb8d72b5da4545ef123ac8"},
 ]
 flask-jwt-extended = [
     {file = "Flask-JWT-Extended-3.25.0.tar.gz", hash = "sha256:b2e4dba91661e4697b30269106386c2b29e416a00d9ff66b26c462edddc10078"},
@@ -1298,6 +1334,9 @@ typing-extensions = [
 virtualenv = [
     {file = "virtualenv-20.4.2-py2.py3-none-any.whl", hash = "sha256:2be72df684b74df0ea47679a7df93fd0e04e72520022c57b479d8f881485dbe3"},
     {file = "virtualenv-20.4.2.tar.gz", hash = "sha256:147b43894e51dd6bba882cf9c282447f780e2251cd35172403745fc381a0a80d"},
+]
+visitor = [
+    {file = "visitor-0.1.3.tar.gz", hash = "sha256:2c737903b2b6864ebc6167eef7cf3b997126f1aa94bdf590f90f1436d23e480a"},
 ]
 werkzeug = [
     {file = "Werkzeug-1.0.1-py2.py3-none-any.whl", hash = "sha256:2de2a5db0baeae7b2d2664949077c2ac63fbd16d98da0ff71837f7d1dea3fd43"},

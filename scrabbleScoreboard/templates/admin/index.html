@@ -1,0 +1,22 @@
+{% extends 'admin/master.html' %} 
+
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block body %}
+{{ super() }}
+
+{% if current_user.is_authenticated %}
+    <h1>Welcome to Scrabble Scoreboard</h1>
+    <p class="lead">Admin pannel</p>
+    <p>Here you can edit every inch of data from your games.<br>Handle with care.</p>
+    <a href="{{ url_for('.logout_view') }}"><button type="button" class="btn btn-primary">Log out</button></a>
+{% else %}
+<h1>Log in</h1>
+<div class="row">
+    <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+{% endif %}
+
+{% endblock body %}

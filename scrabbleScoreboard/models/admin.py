@@ -1,7 +1,7 @@
-from sqlalchemy.ext.hybrid import hybrid_property
 from flask_login import UserMixin
+from sqlalchemy.ext.hybrid import hybrid_property
 
-from scrabbleScoreboard.extensions import login, db, pwd_context
+from scrabbleScoreboard.extensions import db, pwd_context, login_manager
 
 
 class Admin(UserMixin, db.Model):
@@ -21,12 +21,12 @@ class Admin(UserMixin, db.Model):
     def password(self, value):
         self._password = pwd_context.hash(value)
 
-    def verify_password(self, password):
-        return pwd_context.verify(password, self._password)
-
-    @login.user_loader
+    @login_manager.user_loader
     def load_user(id):
         return Admin.query.get(int(id))
+
+    def verify_password(self, password):
+        return pwd_context.verify(password, self._password)
 
     def __repr__(self) -> str:
         return f"<Admin {self.admin_name}>"

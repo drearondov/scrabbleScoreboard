@@ -20,3 +20,5 @@ JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+
+FLASK_ADMIN_SWATCH = 'sandstone'
