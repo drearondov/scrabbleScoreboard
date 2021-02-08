@@ -12,13 +12,6 @@ from tests.factories import (
 )
 
 
-register(LanguageFactory)
-register(WordFactory)
-register(GameFactory)
-register(PlayerFactory)
-register(PlayFactory)
-
-
 @pytest.fixture(scope="session")
 def app():
     load_dotenv(".testenv")
@@ -33,24 +26,23 @@ def app():
 
 
 @pytest.fixture
-def db(app, language_factory, word_factory, game_factory,
-        player_factory, play_factory):
+def db(app):
     _db.app = app
     _db.create_all()
 
-    language_factory.create_batch(4)
+    LanguageFactory.create_batch(4)
     _db.session.commit()
 
-    word_factory.create_batch(60)
+    WordFactory.create_batch(60)
     _db.session.commit()
 
-    game_factory.create_batch(5)
+    GameFactory.create_batch(5)
     _db.session.commit()
 
-    player_factory.create_batch(2)
+    PlayerFactory.create_batch(2)
     _db.session.commit()
 
-    play_factory.create_batch(60)
+    PlayFactory.create_batch(60)
     _db.session.commit()
 
     yield _db

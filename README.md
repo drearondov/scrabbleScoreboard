@@ -1,6 +1,6 @@
 # Scrabble Scoreboard
 
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/drearondov/scrabblescoreboard?include_prereleases&style=flat-square) 
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/drearondov/scrabblescoreboard?include_prereleases&style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/drearondov/scrabblescoreboard?style=flat-square)
 
 Collect data about Scrabble Games and marvel or cry at the sight of your vocabulary and resourcefulness.
@@ -15,6 +15,7 @@ Collect data about Scrabble Games and marvel or cry at the sight of your vocabul
 * `DELETE /games/<int:game_id>` - Deletes a game
 * `GET /games/<int:game_id>/plays` - Gets all the plays from a game
 
+* `GET /players` - Gets all players
 * `POST /players` - Creates a new player
 * `PUT /players/<int:player_id>` - Updates a player based on its id
 * `DELETE /players/<int:player_id>` - Deletes a player

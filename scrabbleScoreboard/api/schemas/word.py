@@ -2,11 +2,12 @@ from marshmallow import RAISE
 
 from scrabbleScoreboard.models import Word
 from scrabbleScoreboard.extensions import ma, db
+from scrabbleScoreboard.utils.pagination import PaginationSchema
 
 
 class WordSchema(ma.SQLAlchemyAutoSchema):
 
-    id = ma.Int(dump_only=True)
+    id = ma.Integer(dump_only=True)
     word = ma.String(required=True)
 
     language = ma.Nested("LanguageSchema", required=True)
@@ -18,3 +19,7 @@ class WordSchema(ma.SQLAlchemyAutoSchema):
         include_relationships = True
         include_fk = True
         unknown = RAISE
+
+
+class WordPaginationSchema(PaginationSchema):
+    data = ma.Nested("WordSchema", attribute="items", many=True)

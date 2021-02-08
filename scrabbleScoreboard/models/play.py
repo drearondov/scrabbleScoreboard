@@ -15,12 +15,12 @@ class Play(db.Model):
         return f"word: {self.word_id}, score: {self.score}"
 
     @classmethod
-    def get_by_player(cls, player):
-        return cls.query.filter_by(player=player).all()
+    def get_by_player(cls, player, page, per_page):
+        return cls.query.filter_by(player=player).paginate(page=page, per_page=per_page)
 
     @classmethod
-    def get_by_game(cls, game):
-        return cls.query.filter_by(game=game).all()
+    def get_by_game(cls, game, page, per_page):
+        return cls.query.filter_by(game=game).paginate(page=page, per_page=per_page)
 
     def delete_play(self):
         db.session.delete(self)

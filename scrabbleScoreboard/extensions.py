@@ -13,6 +13,7 @@ from flasgger import Swagger
 from flask_admin import Admin
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_caching import Cache
 
 from scrabbleScoreboard.utils.swagger import swagger_template
 
@@ -34,6 +35,7 @@ ma = Marshmallow()
 migrate = Migrate()
 swagger = Swagger(template=swagger_template)
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
-manager = Admin(name='Scrabble Scoreboard', template_mode='bootstrap3')
+manager = Admin(name="Scrabble Scoreboard", template_mode="bootstrap3")
 login_manager = LoginManager()
 bootstrap = Bootstrap()
+cache = Cache()

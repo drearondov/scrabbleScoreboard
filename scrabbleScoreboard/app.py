@@ -2,7 +2,14 @@ from flask import Flask
 
 from scrabbleScoreboard import api, auth, admin, models
 from scrabbleScoreboard.extensions import (
-    db, migrate, jwt, swagger, manager, login_manager, bootstrap
+    db,
+    migrate,
+    jwt,
+    swagger,
+    manager,
+    login_manager,
+    bootstrap,
+    cache,
 )
 from scrabbleScoreboard.cli import cli
 
@@ -32,6 +39,7 @@ def configure_extensions(app):
     manager.init_app(app, index_view=admin.NewAdminIndexView())
     login_manager.init_app(app)
     bootstrap.init_app(app)
+    cache.init_app(app)
 
 
 def register_blueprints(app):

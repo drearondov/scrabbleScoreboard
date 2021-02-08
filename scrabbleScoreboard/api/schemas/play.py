@@ -1,5 +1,6 @@
 from scrabbleScoreboard.models import Play
 from scrabbleScoreboard.extensions import ma, db
+from scrabbleScoreboard.utils.pagination import PaginationSchema
 
 
 class PlaySchema(ma.SQLAlchemyAutoSchema):
@@ -20,3 +21,7 @@ class PlaySchema(ma.SQLAlchemyAutoSchema):
         include_fk = True
         include_relationships = True
         exclude = ("word_id", "game_id", "player_id")
+
+
+class PlayPaginationSchema(PaginationSchema):
+    data = ma.Nested("PlaySchema", attribute="items", many=True)

@@ -1,32 +1,40 @@
-"""Simple helper to paginate query
-"""
-from flask import url_for, request
+from flask import request
+from urllib.parse import urlencode
 
-DEFAULT_PAGE_SIZE = 50
-DEFAULT_PAGE_NUMBER = 1
+from scrabbleScoreboard.extensions import ma
 
 
-def paginate(query, schema):
-    page = request.args.get("page", DEFAULT_PAGE_NUMBER)
-    per_page = request.args.get("page_size", DEFAULT_PAGE_SIZE)
-    page_obj = query.paginate(page=page, per_page=per_page)
-    next_ = url_for(
-        request.endpoint,
-        page=page_obj.next_num if page_obj.has_next else page_obj.page,
-        per_page=per_page,
-        **request.view_args
-    )
-    prev = url_for(
-        request.endpoint,
-        page=page_obj.prev_num if page_obj.has_prev else page_obj.page,
-        per_page=per_page,
-        **request.view_args
-    )
+class PaginationSchema(ma.Schema):
+    class Meta:
+        ordered = True
 
-    return {
-        "total": page_obj.total,
-        "pages": page_obj.pages,
-        "next": next_,
-        "prev": prev,
-        "results": schema.dump(page_obj.items),
-    }
+    links = ma.Integer(dump_only=True)
+
+    page = ma.Integer(dump_only=True)
+    pages = ma.Integer(dump_only=True)
+
+    per_page = ma.Integer(dump_only=True)
+    total = ma.Integer(dump_only=True)
+
+    @staticmethod
+    def get_url(page):
+
+        query_args = request.args.to_dict()
+        query_args["page"] = page
+
+        return f"{request.base_url}?{urlencode(query_args)}"
+
+    def get_pagination_links(self, paginated_objects):
+
+        pagination_links = {
+            "first": self.get_url(page=1),
+            "last": self.get_url(page=paginated_objects.prev_num),
+        }
+
+        if paginated_objects.has_prev:
+            pagination_links["prev"] = self.get_url(page=paginated_objects.prev_num)
+
+        if paginated_objects.has_next:
+            pagination_links["next"] = self.get_url(page=paginated_objects.next_num)
+
+        return pagination_links

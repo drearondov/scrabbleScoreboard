@@ -1,3 +1,5 @@
+from sqlalchemy import desc
+
 from scrabbleScoreboard.extensions import db
 
 
@@ -15,8 +17,12 @@ class Word(db.Model):
         return f"<Word {self.word}>"
 
     @classmethod
-    def get_by_language(cls, language):
-        return cls.query.filter_by(language=language).all()
+    def get_by_language(cls, language, page, per_page):
+        return (
+            cls.query.filter_by(language=language)
+            .order_by(desc(cls.times_used))
+            .paginate(page=page, per_page=per_page)
+        )
 
     @classmethod
     def get_by_word(cls, word):

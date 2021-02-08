@@ -20,7 +20,7 @@ from scrabbleScoreboard.auth.helpers import (
 )
 
 
-DOCSDIR = Path(__file__).resolve().parents[1].joinpath('docs')
+DOCSDIR = Path(__file__).resolve().parents[1].joinpath("docs")
 
 blueprint = Blueprint("auth", __name__, url_prefix="/auth")
 

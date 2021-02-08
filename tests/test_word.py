@@ -2,35 +2,44 @@ from flask import url_for
 from http import HTTPStatus
 
 from scrabbleScoreboard.models import Word, Language
+from scrabbleScoreboard.api.schemas import WordSchema
 
 
-def test_get_all_words(client, db, admin_headers):
-    word_url = url_for('api.words')
+class TestWordList:
 
-    rep = client.get(word_url, headers=admin_headers)
-    assert rep.status_code == HTTPStatus.OK
+    def test_get_all_words(self, client, db, admin_headers):
+        word_url = url_for('api.words')
 
-    words = db.session.query(Word).all()
+        rep = client.get(word_url, headers=admin_headers)
+        assert rep.status_code == HTTPStatus.OK
 
-    results = rep.get_json()["words"]
-    for word in words:
-        assert any(w["id"] == word.id for w in results)
+        words = db.session.query(Word).all()
+
+        word_schema = WordSchema(many=True)
+        words_serialized = word_schema.dump(words)
+
+        results = rep.get_json()["data"]
+        for word in results:
+            assert word in words_serialized
 
 
-def test_get_words_by_language(client, db, admin_headers):
-    # Test 404
-    word_url = url_for('api.words_in_language', language_name="ghskusdb")
-    rep = client.get(word_url, headers=admin_headers)
-    assert rep.status_code == HTTPStatus.NOT_FOUND
+    def test_get_words_by_language(self, client, db, admin_headers):
+        # Test 404
+        word_url = url_for('api.words_in_language', language_name="ghskusdb")
+        rep = client.get(word_url, headers=admin_headers)
+        assert rep.status_code == HTTPStatus.NOT_FOUND
 
-    language = db.session.query(Language).first()
-    words = db.session.query(Word).all()
+        language = db.session.query(Language).first()
+        words = db.session.query(Word).all()
 
-    word_url = url_for('api.words_in_language', language_name=language.name)
-    rep = client.get(word_url, headers=admin_headers)
-    assert rep.status_code == HTTPStatus.OK
+        word_url = url_for('api.words_in_language', language_name=language.name)
+        rep = client.get(word_url, headers=admin_headers)
+        assert rep.status_code == HTTPStatus.OK
 
-    results = rep.get_json()[f"{language.name}_words"]
-    words_language = [word for word in words if word.language == language]
-    for word in words_language:
-        assert any(w["id"] == word.id for w in results)
+        word_schema = WordSchema(many=True)
+        words_language = [word for word in words if word.language == language]
+        words_serialized = word_schema.dump(words_language)
+
+        results = rep.get_json()["data"]
+        for word in results:
+            assert word in words_serialized

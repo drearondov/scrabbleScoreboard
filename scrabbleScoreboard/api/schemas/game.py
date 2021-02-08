@@ -4,6 +4,7 @@ from marshmallow_enum import EnumField
 
 from scrabbleScoreboard.models import Game, GametypeEnum
 from scrabbleScoreboard.extensions import ma, db
+from scrabbleScoreboard.utils.pagination import PaginationSchema
 
 
 class GameSchema(ma.SQLAlchemyAutoSchema):
@@ -28,3 +29,7 @@ class GameSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
         include_relationships = True
+
+
+class GamePaginationSchema(PaginationSchema):
+    data = ma.Nested("GameSchema", attribute='items', many=True)

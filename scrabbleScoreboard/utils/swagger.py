@@ -3,7 +3,7 @@ import yaml
 from pathlib import Path
 
 
-DOCSDIR = Path(__file__).resolve().parents[1].joinpath('docs')
+DOCSDIR = Path(__file__).resolve().parents[1].joinpath("docs")
 
 yaml_schemas = open(f"{DOCSDIR}/schemas.yml")
 schemas = yaml.load(yaml_schemas, Loader=yaml.FullLoader)
@@ -19,11 +19,7 @@ swagger_template = {
     "components": {
         "schemas": schemas,
         "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
-    }
+            "bearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
+        },
+    },
 }

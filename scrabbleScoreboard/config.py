@@ -17,18 +17,22 @@ ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
 ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
-FLASK_ADMIN_SWATCH = 'sandstone'
-
+FLASK_ADMIN_SWATCH = "sandstone"
 
 SWAGGER = {
     "title": "Scrabble Scoreboard API",
     "uiversion": 3,
     "specs_route": "/docs",
     "openapi": "3.0.3",
-    "specs": [{
-        "endpoint": 'apispec',
-        "route": '/apispec.json',
-        "rule_filter": lambda rule: True,
-        "model_filter": lambda tag: True,
-    }]
+    "specs": [
+        {
+            "endpoint": "apispec",
+            "route": "/apispec.json",
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
+        }
+    ],
 }
+
+CACHE_TYPE = "simple"
+CACHE_DEFAULT_TIMEOUT = 10 * 60

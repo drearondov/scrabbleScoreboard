@@ -15,6 +15,7 @@ class ProtectedModelView(ModelView):
     """
     Custom model view to add support for authentication in admin side.
     """
+
     form_base_class = SecureForm
 
     def is_accessible(self):
@@ -25,13 +26,14 @@ class NewAdminIndexView(AdminIndexView):
     """
     Custom model to handle login from the admin side.
     """
-    @expose('/')
+
+    @expose("/")
     def index(self):
         if not current_user.is_authenticated:
-            return redirect(url_for('.login_view'))
+            return redirect(url_for(".login_view"))
         return super(NewAdminIndexView, self).index()
 
-    @expose('/login', methods=('GET', 'POST'))
+    @expose("/login", methods=("GET", "POST"))
     def login_view(self):
         if current_user.is_authenticated:
             return super(NewAdminIndexView, self).index()
@@ -42,19 +44,19 @@ class NewAdminIndexView(AdminIndexView):
             admin = Admin.query.filter_by(admin_name=form.admin_name.data).first()
 
             if admin is None or not admin.verify_password(form.password.data):
-                flash('Invalid administrator or password')
-                return redirect(url_for('.login_view'))
+                flash("Invalid administrator or password")
+                return redirect(url_for(".login_view"))
 
             login_user(admin, remember=form.remember_me.data)
             return super(NewAdminIndexView, self).index()
 
-        self._template_args['form'] = form
+        self._template_args["form"] = form
         return super(NewAdminIndexView, self).index()
 
-    @expose('/logout')
+    @expose("/logout")
     def logout_view(self):
         logout_user()
-        return redirect(url_for('.index'))
+        return redirect(url_for(".index"))
 
 
 manager.add_view(ProtectedModelView(Language, db.session))
