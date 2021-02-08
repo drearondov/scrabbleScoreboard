@@ -9,6 +9,7 @@ from flask_jwt_extended import (
 )
 from flasgger import swag_from
 from http import HTTPStatus
+from pathlib import Path
 
 from scrabbleScoreboard.models import Admin
 from scrabbleScoreboard.extensions import pwd_context, jwt
@@ -19,11 +20,13 @@ from scrabbleScoreboard.auth.helpers import (
 )
 
 
+DOCSDIR = Path(__file__).resolve().parents[1].joinpath('docs')
+
 blueprint = Blueprint("auth", __name__, url_prefix="/auth")
 
 
 @blueprint.route("/login", methods=["POST"])
-@swag_from("docs/login.yml")
+@swag_from(f"{DOCSDIR}/auth/login.yml")
 def login():
     if not request.is_json:
         return jsonify({"message": "Missing JSON in request"}), HTTPStatus.BAD_REQUEST
@@ -53,7 +56,7 @@ def login():
 
 @blueprint.route("/refresh", methods=["POST"])
 @jwt_refresh_token_required
-@swag_from("docs/refresh.yml")
+@swag_from(f"{DOCSDIR}/auth/refresh.yml")
 def refresh():
     current_user = get_jwt_identity()
     access_token = create_access_token(identity=current_user)
@@ -62,8 +65,9 @@ def refresh():
     return jsonify(ret), HTTPStatus.OK
 
 
-@blueprint.route("revoke_access", methods=["DELETE"])
+@blueprint.route("/revoke_access", methods=["DELETE"])
 @jwt_required
+@swag_from(f"{DOCSDIR}/auth/revoke_access_token.yml")
 def revoke_access_token():
     jti = get_raw_jwt()["jti"]
     user_identity = get_jwt_identity()
@@ -73,6 +77,7 @@ def revoke_access_token():
 
 @blueprint.route("/revoke_refresh", methods=["DELETE"])
 @jwt_refresh_token_required
+@swag_from(f"{DOCSDIR}/auth/revoke_refresh.yml")
 def revoke_refresh_token():
     jti = get_raw_jwt()["jti"]
     user_identity = get_jwt_identity()

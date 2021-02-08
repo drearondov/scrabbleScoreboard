@@ -1,6 +1,6 @@
 from flask import Flask
 
-from scrabbleScoreboard import api, auth, admin
+from scrabbleScoreboard import api, auth, admin, models
 from scrabbleScoreboard.extensions import (
     db, migrate, jwt, swagger, manager, login_manager, bootstrap
 )
@@ -18,6 +18,7 @@ def create_app(testing=False):
     configure_extensions(app)
     register_blueprints(app)
     register_commands(app)
+    register_shell_context(app)
 
     return app
 
@@ -37,6 +38,19 @@ def register_blueprints(app):
     """Register all blueprints for applications."""
     app.register_blueprint(api.views.blueprint)
     app.register_blueprint(auth.views.blueprint)
+
+
+def register_shell_context(app):
+    """Shell context objects."""
+    return {
+        "db": db,
+        "Language": models.Language,
+        "Word": models.Word,
+        "Game": models.Game,
+        "Gametype": models.GametypeEnum,
+        "Player": models.Player,
+        "Play": models.Play,
+    }
 
 
 def register_commands(app):

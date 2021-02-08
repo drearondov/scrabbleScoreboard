@@ -14,6 +14,8 @@ from flask_admin import Admin
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 
+from scrabbleScoreboard.utils.swagger import swagger_template
+
 
 convention = {
     "ix": "ix_%(column_0_label)s",
@@ -24,16 +26,6 @@ convention = {
 }
 
 metadata = MetaData(naming_convention=convention)
-
-swagger_template = {
-    "swagger": "2.0",
-    "info": {
-        "title": "Scrabble Scoreboard",
-        "description": "An API to record store data from Scrabble games",
-        "version": "0.1.0-alpha",
-    },
-    "schemes": ["http", "https"],
-}
 
 
 db = SQLAlchemy(metadata=metadata)

@@ -1,0 +1,23 @@
+Get an access token from a refresh token
+---
+tags:
+  - auth
+post:
+  summary: Get an access token from a refresh token
+security:
+  - BearerAuth: []
+responses:
+  200:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            access_token:
+              type: string
+              example: myaccesstoken
+  400:
+    description: Bad request
+  401:
+    description: Unauthorized

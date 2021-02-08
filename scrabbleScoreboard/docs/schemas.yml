@@ -1,0 +1,75 @@
+Language:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 1
+    name:
+      type: string
+      example: english
+    code:
+      type: string
+      example: en
+Word:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 3
+    word:
+      type: string
+      example: paseo
+    language:
+      $ref: '#/components/schemas/Language'
+Player:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 1
+    name:
+      type: string
+      example: John Doe
+    plays:
+      type: array
+      items:
+        $ref: '#/components/schemas/Play'
+Game:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 4
+    date:
+      type: string
+      required: true
+      format: date-time
+      example:  '2017-07-21T17:32:28Z'
+    winner:
+      $ref: '#/components/schemas/Player'
+    players:
+      type: array
+      items:
+        $ref: '#/components/schemas/Player'
+    plays:
+      type: array
+      items:
+        $ref: '#/components/schemas/Play'
+Play:
+  type: object
+  properties:
+    id:
+      type: integer
+      example: 1
+    turn_number:
+      type: integer
+      example: 3
+    score:
+      type: integer
+      example: 20
+    word:
+      $ref: '#/components/schemas/Word'
+    game:
+      $ref: '#/components/schemas/Game'
+    player:
+      $ref: '#/components/schemas/Player'

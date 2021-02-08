@@ -1,0 +1,60 @@
+Creates a new play
+---
+tags:
+  - play
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          turn_number:
+            type: integer
+            example: 3
+            required: true
+          score:
+            type: integer
+            example: 20
+            required: true
+          word:
+            type: string
+            example: paseo
+            required: true
+          game:
+            type: string
+            format: date-time
+            example:  '2017-07-21T17:32:28Z'
+            required: true
+          player:
+            type: string
+            example: John Doe
+            required: true
+
+security:
+  - bearerAuth: []
+responses:
+  200:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: play created
+            player:
+              type: object
+              schema:
+                $ref: '#components/schemas/Play'
+  401:
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Missing authorization headers

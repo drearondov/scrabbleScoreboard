@@ -1,0 +1,46 @@
+Delete game based on it's ID
+---
+tags:
+  - game
+parameters:
+  - in: path
+    name: game_id
+    required: true
+    description: ID of the game
+    schema:
+      type: integer
+      format: int64
+      example: 2
+security:
+  - bearerAuth: []
+responses:
+  200:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Game deleted
+  401:
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Missing authorization headers
+  404:
+    description: Not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Game does not exist

@@ -12,6 +12,9 @@ class GameSchema(ma.SQLAlchemyAutoSchema):
     date = ma.DateTime(required=True)
     gametype = EnumField(GametypeEnum, by_value=True)
 
+    winner = ma.Nested("PlayerSchema")
+
+    players = ma.Nested("PlayerSchema", many=True)
     plays = ma.Nested("PlaySchema", many=True)
 
     @validates("date")

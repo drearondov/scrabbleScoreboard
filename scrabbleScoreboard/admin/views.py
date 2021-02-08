@@ -1,6 +1,7 @@
 from flask import redirect, url_for, request
 from flask.helpers import flash
 from flask_admin.base import expose, AdminIndexView
+from flask_admin.form import SecureForm
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask_login.utils import login_user, logout_user
@@ -14,6 +15,8 @@ class ProtectedModelView(ModelView):
     """
     Custom model view to add support for authentication in admin side.
     """
+    form_base_class = SecureForm
+
     def is_accessible(self):
         return current_user.is_authenticated
 

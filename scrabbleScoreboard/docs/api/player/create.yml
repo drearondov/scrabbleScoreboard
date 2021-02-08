@@ -1,0 +1,35 @@
+Creates a new player
+---
+tags:
+  - player
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#components/schemas/Player'
+security:
+  - bearerAuth: []
+responses:
+  200:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: player created
+            player:
+              $ref: '#components/schemas/Player'
+  401:
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Missing authorization headers

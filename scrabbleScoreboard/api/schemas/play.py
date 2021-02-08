@@ -7,6 +7,7 @@ class PlaySchema(ma.SQLAlchemyAutoSchema):
     id = ma.Int(dump_only=True)
     turn_number = ma.Int(required=True)
     score = ma.Int(required=True)
+    cumulative_score = ma.Int()
 
     word = ma.Nested("WordSchema", required=True)
     game = ma.Nested("GameSchema", exclude=("plays",), required=True)

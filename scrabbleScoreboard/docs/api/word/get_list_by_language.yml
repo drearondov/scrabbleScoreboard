@@ -1,0 +1,34 @@
+Get all words in a specific language
+---
+tags:
+  - word
+parameters:
+  - in: path
+    name: language_name
+    required: true
+    description: name of the language
+    schema:
+      type: string
+      example: english
+security:
+  - bearerAuth: []
+responses:
+  200:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: object
+              $ref: '#components/schemas/Word'
+  401:
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Missing authorization headers

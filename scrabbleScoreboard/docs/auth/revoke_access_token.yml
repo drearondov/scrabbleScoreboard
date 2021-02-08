@@ -1,0 +1,21 @@
+Revokes an access token
+---
+tags:
+  - auth
+security:
+  - bearerAuth: []
+responses:
+  '200':
+    description: Message with confirmation of deletion.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: token revoked
+  '400':
+    description: Bad request
+  '401':
+    description: Unauthorized

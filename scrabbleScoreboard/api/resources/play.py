@@ -1,17 +1,23 @@
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required
+from flasgger import swag_from
 from http import HTTPStatus
+from pathlib import Path
 
 from scrabbleScoreboard.extensions import db
 from scrabbleScoreboard.api.schemas import PlaySchema
 from scrabbleScoreboard.models import Game, Language, Play, Player, Word
 
 
+DOCSDIR = Path(__file__).resolve().parents[2].joinpath('docs')
+
+
 class PlayResource(Resource):
 
     method_decorators = [jwt_required]
 
+    @swag_from(f'{DOCSDIR}/api/play/put_by_id.yml', methods=['PUT'])
     def put(self, play_id):
         play_schema = PlaySchema(partial=True)
         modify_play = Play.query.get_or_404(play_id)
@@ -24,10 +30,10 @@ class PlayResource(Resource):
             "play": play_schema.dump(modify_play),
         }, HTTPStatus.OK
 
+    @swag_from(f'{DOCSDIR}/api/play/delete_by_id.yml', methods=['DELETE'])
     def delete(self, play_id):
         erase_play = Play.query.get_or_404(play_id)
-        db.session.delete(erase_play)
-        db.session.commit()
+        erase_play.delete_play()
 
         return {"message": "play deleted"}, HTTPStatus.NO_CONTENT
 
@@ -36,12 +42,14 @@ class PlayListResource(Resource):
 
     method_decorators = [jwt_required]
 
+    @swag_from(f'{DOCSDIR}/api/play/get_list.yml', methods=['GET'])
     def get(self):
         play_schema = PlaySchema(many=True)
         plays = Play.query.all()
 
         return {"plays": play_schema.dump(plays)}, HTTPStatus.OK
 
+    @swag_from(f'{DOCSDIR}/api/play/create.yml', methods=['POST'])
     def post(self):
         try:
             word = Word.get_by_word(word=request.json["word"])
@@ -59,6 +67,13 @@ class PlayListResource(Resource):
         else:
             word.update_word_count()
 
+        last_play = Play.query.filter_by(game_id=game.id).order_by(Play.id.desc()).first()
+
+        if last_play is None:
+            cumulative_score = request.json["score"]
+        else:
+            cumulative_score = last_play.cumulative_score + request.json["score"]
+
         play_schema = PlaySchema()
 
         new_play = Play(
@@ -67,8 +82,9 @@ class PlayListResource(Resource):
             word=word,
             game=game,
             player=player,
+            cumulative_score=cumulative_score
         )
-        new_play.save()
+        new_play.save_play()
 
         return {
             "message": "play created",
@@ -77,21 +93,23 @@ class PlayListResource(Resource):
 
 
 class PlaysGameListResource(Resource):
-    @jwt_required
-    def get(self, game_id):
-        game = Game.query.get_or_404(game_id)
 
+    @jwt_required
+    @swag_from(f'{DOCSDIR}/api/play/get_list_by_game.yml', methods=['GET'])
+    def get(self, game_id):
         play_schema = PlaySchema(many=True)
+        game = Game.query.get_or_404(game_id)
         plays = Play.get_by_game(game)
 
         return {"plays": play_schema.dump(plays)}, HTTPStatus.OK
 
 
 class PlaysPlayerListResource(Resource):
+
     @jwt_required
+    @swag_from(f'{DOCSDIR}/api/play/get_list_by_player.yml', methods=['GET'])
     def get(self, player_id):
         player = Player.query.get_or_404(player_id)
-
         player_schema = PlaySchema(many=True)
         plays = Play.get_by_player(player=player)
 

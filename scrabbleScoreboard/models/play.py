@@ -22,6 +22,10 @@ class Play(db.Model):
     def get_by_game(cls, game):
         return cls.query.filter_by(game=game).all()
 
-    def save(self):
+    def delete_play(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def save_play(self):
         db.session.add(self)
         db.session.commit()

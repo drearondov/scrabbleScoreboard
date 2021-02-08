@@ -32,7 +32,7 @@ def app():
     ctx.pop()
 
 
-@pytest.fixture()
+@pytest.fixture
 def db(app, language_factory, word_factory, game_factory,
         player_factory, play_factory):
     _db.app = app
