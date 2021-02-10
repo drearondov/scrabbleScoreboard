@@ -11,7 +11,7 @@ class GameSchema(ma.SQLAlchemyAutoSchema):
 
     id = ma.Int(dump_only=True)
     date = ma.DateTime(required=True)
-    gametype = EnumField(GametypeEnum, by_value=True)
+    gametype = EnumField(GametypeEnum, by_value=True, required=True)
 
     winner = ma.Nested("PlayerSchema")
 
@@ -32,4 +32,4 @@ class GameSchema(ma.SQLAlchemyAutoSchema):
 
 
 class GamePaginationSchema(PaginationSchema):
-    data = ma.Nested("GameSchema", attribute='items', many=True)
+    data = ma.Nested("GameSchema", attribute="items", many=True)

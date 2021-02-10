@@ -50,7 +50,7 @@ class PlayListResource(Resource):
 
     method_decorators = [jwt_required]
 
-    @use_kwargs({'page': fields.Int(missing=1), 'per_page': fields.Int(missing=20)})
+    @use_kwargs({"page": fields.Int(missing=1), "per_page": fields.Int(missing=20)})
     @cache.cached(timeout=60, query_string=True)
     @swag_from(f"{DOCSDIR}/api/play/get_list.yml", methods=["GET"])
     def get(self, page, per_page):
@@ -61,42 +61,12 @@ class PlayListResource(Resource):
 
     @swag_from(f"{DOCSDIR}/api/play/create.yml", methods=["POST"])
     def post(self):
-        try:
-            word = Word.get_by_word(word=request.json["word"])
-            game = Game.get_by_date(date=request.json["date"])
-            player = Player.get_by_name(name=request.json["player"])
-            language = Language.get_by_name(language_name=request.json["language"])
-        except KeyError:
-            return {
-                "message": "A field in the data sent is missing, check values"
-            }, HTTPStatus.BAD_REQUEST
 
-        if word is None:
-            word = Word(word=request.json["word"], language=language)
-            word.save()
-        else:
-            word.update_word_count()
+        data = request.json
 
-        last_play = (
-            Play.query.filter_by(game_id=game.id).order_by(Play.id.desc()).first()
-        )
-
-        if last_play is None:
-            cumulative_score = request.json["score"]
-        else:
-            cumulative_score = last_play.cumulative_score + request.json["score"]
-
+        new_play = Play.create_play(data)
+        
         play_schema = PlaySchema()
-
-        new_play = Play(
-            turn_number=request.json["turn_number"],
-            score=request.json["score"],
-            word=word,
-            game=game,
-            player=player,
-            cumulative_score=cumulative_score,
-        )
-        new_play.save_play()
 
         return {
             "message": "play created",
@@ -105,9 +75,8 @@ class PlayListResource(Resource):
 
 
 class PlaysGameListResource(Resource):
-
     @jwt_required
-    @use_kwargs({'page': fields.Int(missing=1), 'per_page': fields.Int(missing=20)})
+    @use_kwargs({"page": fields.Int(missing=1), "per_page": fields.Int(missing=20)})
     @cache.cached(timeout=60, query_string=True)
     @swag_from(f"{DOCSDIR}/api/play/get_list_by_game.yml", methods=["GET"])
     def get(self, game_id, page, per_page):
@@ -119,9 +88,8 @@ class PlaysGameListResource(Resource):
 
 
 class PlaysPlayerListResource(Resource):
-
     @jwt_required
-    @use_kwargs({'page': fields.Int(missing=1), 'per_page': fields.Int(missing=20)})
+    @use_kwargs({"page": fields.Int(missing=1), "per_page": fields.Int(missing=20)})
     @cache.cached(timeout=60, query_string=True)
     @swag_from(f"{DOCSDIR}/api/play/get_list_by_player.yml", methods=["GET"])
     def get(self, player_id, page, per_page):

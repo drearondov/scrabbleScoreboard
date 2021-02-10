@@ -58,7 +58,7 @@ class PlayerListResource(Resource):
 
     method_decorators = [jwt_required]
 
-    @use_kwargs({'page': fields.Int(missing=1), 'per_page': fields.Int(missing=20)})
+    @use_kwargs({"page": fields.Int(missing=1), "per_page": fields.Int(missing=20)})
     @cache.cached(timeout=60, query_string=True)
     @swag_from(f"{DOCSDIR}/api/player/get_list.yml", methods=["GET"])
     def get(self, page, per_page):

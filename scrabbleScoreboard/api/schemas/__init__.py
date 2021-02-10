@@ -6,6 +6,13 @@ from scrabbleScoreboard.api.schemas.player import PlayerSchema, PlayerPagination
 
 
 __all__ = [
-    "WordSchema","LanguageSchema", "GameSchema", "PlaySchema", "PlayerSchema",
-    "WordPaginationSchema", "GamePaginationSchema", "PlayPaginationSchema", "PlayerPaginationSchema"
+    "WordSchema",
+    "LanguageSchema",
+    "GameSchema",
+    "PlaySchema",
+    "PlayerSchema",
+    "WordPaginationSchema",
+    "GamePaginationSchema",
+    "PlayPaginationSchema",
+    "PlayerPaginationSchema",
 ]

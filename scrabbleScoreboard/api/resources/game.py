@@ -52,12 +52,14 @@ class GameListResource(Resource):
 
     method_decorators = [jwt_required]
 
-    @use_kwargs({'page': fields.Int(missing=1), 'per_page': fields.Int(missing=20)})
+    @use_kwargs({"page": fields.Int(missing=1), "per_page": fields.Int(missing=20)})
     @cache.cached(timeout=60, query_string=True)
     @swag_from(f"{DOCSDIR}/api/game/get_list.yml", methods=["GET"])
     def get(self, page, per_page):
         game_schema = GamePaginationSchema()
-        game_list = Game.query.order_by(asc(Game.id)).paginate(page=page, per_page=per_page)
+        game_list = Game.query.order_by(asc(Game.id)).paginate(
+            page=page, per_page=per_page
+        )
         return game_schema.dump(game_list), HTTPStatus.OK
 
     @swag_from(f"{DOCSDIR}/api/game/create.yml", methods=["POST"])

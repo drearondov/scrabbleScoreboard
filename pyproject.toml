@@ -24,6 +24,8 @@ Flask-WTF = "^0.14.3"
 Flask-Bootstrap = "^3.3.7"
 Flask-Caching = "^1.9.0"
 webargs = "^7.0.1"
+psycopg2-binary = "^2.8.6"
+passlib = "^1.7.4"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
