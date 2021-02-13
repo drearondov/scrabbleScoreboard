@@ -1,4 +1,5 @@
 import click
+import json
 
 from flask.cli import AppGroup
 
@@ -23,3 +24,22 @@ def init():
     db.session.add(admin)
     db.session.commit()
     click.echo("created admin")
+
+@cli.command("populate_lang")
+def populate_lang():
+    "Populate language database"
+    from scrabbleScoreboard.extensions import db
+    from scrabbleScoreboard.models import Language
+
+    with open(
+    'scrabbleScoreboard/static/json/ISO-639-1-language.json', 'r'
+    ) as languages_iso:
+        language_dict = json.load(languages_iso)
+    
+    for language in language_dict:
+        new_language = Language(
+            name=language["name"],
+            code=language["code"]
+        )
+        db.session.add(new_language)
+        db.session.commit()

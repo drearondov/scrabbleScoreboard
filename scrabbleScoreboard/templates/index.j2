@@ -1,0 +1,31 @@
+{% extends 'base.j2' %}
+
+{% block title %}Welcome{% endblock title %}
+    
+{% block body %}
+<body class="text-gray-800 h-screen flex place-content-center font-sans">
+    <div class="place-self-center max-w-sm card flex-col space-y-8">
+        <h1 class="text-4xl font-extrabold">Login</h1>
+        <p class="text-base font-normal">Don't you think you should login first and behave like a human being?</p>
+        <form action="" method="post" novalidate class="space-y-2">
+            {{ form.csrf_token }}
+            <fieldset class="field">
+                <p class="space-x-2">
+                    <span><i class="fas fa-user"></i></span>
+                    {{ form.admin_name(placeholder="admin name") }}
+                </p>
+            </fieldset>
+            <fieldset class="field">
+                <p class="space-x-2">
+                    <span><i class="fas fa-key"></i></span>
+                    {{ form.password(placeholder="password") }}
+                </p>
+            </fieldset>
+            <p>
+                <label>{{ form.remember_me() }} {{ form.remember_me.label() }}</label>
+            </p>
+            <div>{{ form.submit(class_="w-full h-12 mt-4 btn bg-light-green") }}</div>
+        </form>
+    </div>
+</body>
+{% endblock body %}

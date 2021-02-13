@@ -3,7 +3,7 @@ from scrabbleScoreboard.extensions import db
 
 class Language(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(60), unique=True)
+    name = db.Column(db.String(120), unique=True)
     code = db.Column(db.String(2), unique=True)
 
     words = db.relationship("Word", backref="language", lazy=True)

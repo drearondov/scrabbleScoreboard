@@ -18,6 +18,7 @@ class ProtectedModelView(ModelView):
 
     form_base_class = SecureForm
     can_export = True
+    page_size = 60
 
     def is_accessible(self):
         return current_user.is_authenticated

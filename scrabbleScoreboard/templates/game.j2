@@ -1,0 +1,100 @@
+{% extends "base.j2" %}
+
+{% block title %}Game{% endblock title %}
+
+{% block body %}
+<body class="text-gray-800 p-8 flex bg-gray-50">
+    <section class="flex flex-grow flex-wrap justify-around">
+        <section class="p-10 max-w-lg flex-grow">
+            <div class="flex mb-4 space-x-4 items-center">
+                <div id="avatar" class="w-16 h-16"><img src="{{ url_for('static', filename='img/avatar-1.png') }}" alt=""></div>
+                <h3 class="text-2xl font-extrabold">Player 1</h3>
+            </div>
+            <section>
+                <header class="flex space-x-4 p-2.5 font-bold text-sm">
+                    <div class="w-1/6 text-center">Turn</div>
+                    <div class="flex-grow">Word</div>
+                    <div class="w-1/6 text-center">Score</div>
+                    <div class="w-1/6 text-center">Total</div>
+                </header>
+                <div class="field flex space-x-4 p-2.5 bg-gray-200 mb-3">
+                    <div class="w-1/6 text-center">1</div>
+                    <div class="flex-grow">paseo</div>
+                    <div class="w-1/6 text-center">20</div>
+                    <div class="w-1/6 text-center">20</div>
+                </div>
+                <div class="field flex space-x-4 p-2.5 bg-gray-200 mb-3">
+                    <div class="w-1/6 text-center">1</div>
+                    <div class="flex-grow">paseo</div>
+                    <div class="w-1/6 text-center">20</div>
+                    <div class="w-1/6 text-center">20</div>
+                </div>
+            </section>
+        </section>
+        <section class="p-10 max-w-lg flex-grow">
+            <div class="flex mb-4">
+                <div id="avatar"></div>
+                <h3 class="text-2xl font-extrabold">Player 2</h3>
+            </div>
+            <section>
+                <header class="flex  space-x-4">
+                    <div>Turn</div>
+                    <div class="flex-grow">Word</div>
+                    <div>Score</div>
+                    <div>Total</div>
+                </header>
+                <div class="field flex  space-x-4">
+                    <div>1</div>
+                    <div class="flex-grow">paseo</div>
+                    <div>20</div>
+                    <div>20</div>
+                </div>
+            </section>
+        </section>
+    </section>
+    <section>
+        <div class="flex flex-col items-end">
+            <div class="btn bg-bright-yellow flex p-4 space-x-3 w-64">
+                <div>
+                    <p id="weekday" class="text-xl"></p>
+                    <p id="date" class="font-normal text-sm"></p>
+                </div>
+                <div class="flex items-center space-x-1">
+                    <p id="clock" class="text-2xl"></p>
+                    <p id="period" class="text-xs"></p>
+                </div>
+            </div>
+            <button class="h-12 w-36 rounded-xl border-2 border-gray-800 bg-gray-800 text-white font-bold mt-4">End game ></button>
+        </div>
+        <div class="card w-72 flex-col space-y-8 m-10">
+            <h1 class="text-4xl font-extrabold text-center">New play</h1>
+            <form action="" method="post" novalidate class="space-y-2 flex flex-col">
+                {{ form.csrf_token }}
+                <fieldset>
+                    {{ form.players(class_="field w-full") }}
+                </fieldset>
+                <fieldset class="field">
+                    <p class="space-x-2">
+                    <span><i class="fas fa-undo"></i></span>
+                    {{ form.turn(placeholder='Turn', class_="w-40") }}
+                    </p>
+                </fieldset>
+                <fieldset class="field">
+                    <p class="space-x-2">
+                    <span><i class="fas fa-signature"></i></span>
+                    {{ form.word(placeholder='Word', class_="w-40") }}
+                    </p>
+                </fieldset>
+                <fieldset class="field">
+                    <p class="space-x-2">
+                    <span><i class="fas fa-flag"></i></span>
+                    {{ form.score(placeholder='Score', class_="w-40") }}
+                    </p>
+                </fieldset>
+                <div class="self-end">{{ form.submit(class_="h-12 w-36 mt-4 btn bg-light-green") }}</div>
+            </form>
+        </div>
+    </section>
+    <script src="{{ url_for('static', filename='src/game.js') }}"></script>
+</body>
+{% endblock body %}

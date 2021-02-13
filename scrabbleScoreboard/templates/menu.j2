@@ -1,0 +1,55 @@
+{% extends "base.j2" %}
+
+{% block title %}Menu{% endblock title %}
+
+{% block body %}
+<body class="text-gray-800 h-screen flex flex-wrap place-content-center max-w-full bg-gray-50">
+    <section class="card w-72 flex-col space-y-8 m-10">
+        <div class="text-center">
+            <h3>New</h3>
+            <h1 class="text-4xl font-extrabold">Game</h1>
+        </div>
+        <form id="player_form" action="" method="post" novalidate>
+            {{ form.csrf_token }}
+            <h3 class="font-bold mb-2">Who's playing?</h3>
+            <div class="space-y-2 flex flex-col mb-4">
+                <fieldset class="field">
+                    <p class="space-x-2">
+                        <span><i class="fas fa-user"></i></span>
+                        {{ form.player_1(class_="w-40", placeholder="player 1") }}
+                    </p>
+                </fieldset>
+                <fieldset class="field">
+                    <p class="space-x-2">
+                        <span><i class="fas fa-user"></i></span>
+                        {{ form.player_2(class_="w-40", placeholder="player 2") }}
+                    </p>
+                </fieldset>
+                <fieldset class="field">
+                    <p class="space-x-2">
+                        <span><i class="fas fa-user"></i></span>
+                        {{ form.player_3(class_="w-40", placeholder="player 3") }}
+                    </p>
+                </fieldset>
+                <fieldset class="field">
+                    <p class="space-x-2">
+                        <span><i class="fas fa-user"></i></span>
+                        {{ form.player_4(class_="w-40", placeholder="player 4") }}
+                    </p>
+                </fieldset>
+            </div>
+            <h3 class="font-bold mb-2">What type of game is it?</h3>
+            <div>{{ form.gametype(class_="flex space-x-2 justify-items-center") }}</div>
+            <div>{{ form.submit(class_="w-full h-12 mt-4 btn bg-neutral-red text-white") }}</div>
+        </form>
+    </section>
+    <section class="card w-72 flex flex-col space-y-8 m-10 justify-center">
+        <div class="text-center">
+            <h3>Check the</h3>
+            <h1 class="text-4xl font-extrabold">Dashboard</h1>
+        </div>
+        <p class="text-center">Who's the<br>best huh?</p>
+        <button class="btn bg-neutral-blue w-full h-12 mt-4 text-white"><a href="#">Find out</a></button>
+    </section>
+</body>
+{% endblock body %}

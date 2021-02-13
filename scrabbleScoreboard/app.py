@@ -1,6 +1,6 @@
 from flask import Flask
 
-from scrabbleScoreboard import api, auth, admin, models
+from scrabbleScoreboard import api, auth, admin, models, routes
 from scrabbleScoreboard.extensions import (
     db,
     migrate,
@@ -46,6 +46,7 @@ def register_blueprints(app):
     """Register all blueprints for applications."""
     app.register_blueprint(api.views.blueprint)
     app.register_blueprint(auth.views.blueprint)
+    app.register_blueprint(routes.views.blueprint)
 
 
 def register_shell_context(app):

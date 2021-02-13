@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .card {
+        @apply py-16 px-8 rounded-3xl border-2 border-gray-800 bg-white;
+    }
+    .btn {
+        @apply rounded-xl font-extrabold border-2 border-b-4 border-gray-800;
+    }
+    .field {
+        @apply h-12 rounded-xl border-2 border-gray-800 p-2.5 bg-white;
+    }
+}

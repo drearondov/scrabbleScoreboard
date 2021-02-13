@@ -1,5 +1,7 @@
+from http import HTTPStatus
+
 from scrabbleScoreboard.extensions import db
-from scrabbleScoreboard.models import Word, Game, Player
+from scrabbleScoreboard.models import Language, Word, Game, Player
 
 
 class Play(db.Model):
