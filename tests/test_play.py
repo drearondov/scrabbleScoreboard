@@ -48,7 +48,7 @@ class TestPlaySingle:
         assert db.session.query(Play).get(play.id) is None
 
 
-    def test_create_play(self, client, db, admin_headers):
+    def test_api_create_play(self, client, db, admin_headers):
         # test bad data
         play_url = url_for('api.plays')
         data = {}

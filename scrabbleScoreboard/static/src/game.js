@@ -60,4 +60,3 @@ let day = () => {
 clock();
 weekday();
 day();
-

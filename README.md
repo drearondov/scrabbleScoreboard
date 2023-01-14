@@ -29,7 +29,7 @@ Collect data about Scrabble Games and marvel or cry at the sight of your vocabul
 
 ## Resources
 
-* [SQLite3](https://www.sqlite.org/index.html): A small portable database.
+* [PostgreSQL](https://www.postgresql.org): Popular and extensible database server.
 * [Flask](https://flask.palletsprojects.com/en/1.1.x/): Microframework to create the web application.
 * [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) and [Flask-Migrate](https://flask-migrate.readthedocs.io/en/latest/): Packages used for database management.
 * [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/): Package used for serialization and data validation

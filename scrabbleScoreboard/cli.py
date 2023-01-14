@@ -25,6 +25,7 @@ def init():
     db.session.commit()
     click.echo("created admin")
 
+
 @cli.command("populate_lang")
 def populate_lang():
     "Populate language database"
@@ -32,14 +33,11 @@ def populate_lang():
     from scrabbleScoreboard.models import Language
 
     with open(
-    'scrabbleScoreboard/static/json/ISO-639-1-language.json', 'r'
+        "scrabbleScoreboard/static/json/ISO-639-1-language.json", "r"
     ) as languages_iso:
         language_dict = json.load(languages_iso)
-    
+
     for language in language_dict:
-        new_language = Language(
-            name=language["name"],
-            code=language["code"]
-        )
+        new_language = Language(name=language["name"], code=language["code"])
         db.session.add(new_language)
         db.session.commit()

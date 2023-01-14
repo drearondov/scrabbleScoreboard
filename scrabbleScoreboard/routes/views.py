@@ -1,27 +1,16 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 
-from scrabbleScoreboard.forms import LoginForm, NewGameForm, NewPlayForm
-from scrabbleScoreboard.models import Player, Game
-
-
-blueprint = Blueprint('main', __name__)
-
-
-@blueprint.route('/', methods=["GET", "POST"])
-@blueprint.route('/login', methods=["GET", "POST"])
-def index():
-    login_form = LoginForm()
-    return render_template('index.j2', form=login_form)
+from scrabbleScoreboard.routes.finish import finish
+from scrabbleScoreboard.routes.game import game
+from scrabbleScoreboard.routes.home import home
+from scrabbleScoreboard.routes.login import login
 
 
-@blueprint.route('/home', methods=["GET", "POST"])
-def home():
-    new_game_form = NewGameForm()
-    return render_template('menu.j2', form=new_game_form)
+blueprint = Blueprint("main", __name__)
 
 
-@blueprint.route('/game', methods=["GET", "POST"])
-def game():
-    new_play_form = NewPlayForm()
-    game_players = Player.query.filter_by(games=Game.query.filter_by(is_active=True).first()).all()
-    return render_template('game.j2', form=new_play_form, game_players=game_players)
+blueprint.add_url_rule("/", view_func=login, methods=["GET", "POST"])
+blueprint.add_url_rule("/login", view_func=login, methods=["GET", "POST"])
+blueprint.add_url_rule("/home", view_func=home, methods=["GET", "POST"])
+blueprint.add_url_rule("/game", view_func=game, methods=["GET", "POST"])
+blueprint.add_url_rule("/finish", view_func=finish, methods=["GET", "POST"])

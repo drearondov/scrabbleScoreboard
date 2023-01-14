@@ -9,7 +9,7 @@ class Language(db.Model):
     words = db.relationship("Word", backref="language", lazy=True)
 
     def __repr__(self) -> str:
-        return f"<Language {self.name}>"
+        return self.name
 
     @classmethod
     def get_by_name(cls, language_name):

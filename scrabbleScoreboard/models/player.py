@@ -10,11 +10,20 @@ class Player(db.Model):
     plays = db.relationship("Play", backref="player", lazy=True)
 
     def __repr__(self) -> str:
-        return f"Player {self.name}"
+        return self.name
 
     @classmethod
     def get_by_name(cls, name):
         return cls.query.filter_by(name=name).first_or_404()
+
+    @classmethod
+    def get_or_create(cls, name):
+        player = cls.query.filter_by(name=name).first()
+
+        if player is None:
+            player = cls(name=name)
+            db.session.add(player)
+            db.session.commit()
 
     def save(self):
         db.session.add(self)

@@ -63,7 +63,7 @@ class TestPlayerSingle:
         assert db.session.query(Player).get(player.id) is None
 
 
-    def test_create_player(self, client, db, admin_headers):
+    def test_api_create_player(self, client, db, admin_headers):
         # test bad data
         player_url = url_for('api.players')
         data = {}

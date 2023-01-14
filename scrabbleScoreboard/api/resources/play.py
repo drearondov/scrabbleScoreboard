@@ -64,8 +64,8 @@ class PlayListResource(Resource):
 
         data = request.json
 
-        new_play = Play.create_play(data)
-        
+        new_play = Play.api_create_play(data)
+
         play_schema = PlaySchema()
 
         return {
